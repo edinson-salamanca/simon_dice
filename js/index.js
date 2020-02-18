@@ -1,5 +1,4 @@
 const vidas = document.getElementById('tableroVidas');
-const tableroNivel = document.getElementById('tableroNivel');
 
 const celeste = document.getElementById('celeste');
 const violeta = document.getElementById('violeta');
@@ -12,10 +11,13 @@ class Juego {
   constructor() {
     this.elegirColor = this.elegirColor.bind(this);
     this.iluminarSecuencia = this.iluminarSecuencia.bind(this);
-    this.crearTableroNivel();
+
+    this.tableroNivel = document.getElementById('tableroNivel');
+    this.estadoNivel = document.getElementById('estadoNivel');
+
+    this.visibleTableroNivel();
     this.crearTableroVidas();
 
-    this.estadoNivel = document.getElementById('estadoNivel');
     this.vidas = vidas;
 
     this.inicializar();
@@ -153,6 +155,7 @@ class Juego {
     } else {
       swal('Lo lamentamos, perdiste', 'Da click en el botón', 'error').then(
         () => {
+          this.ocultarTableroNivel();
           this.eliminarEventosClick();
           this.inicializar();
         }
@@ -162,7 +165,6 @@ class Juego {
 
   crearTableroVidas() {
     const TOTAL_VIDAS = 3;
-
     const corazon = document.createElement('img');
     corazon.src = './imagenes/corazon.png';
     corazon.className = 'oportunidades';
@@ -173,15 +175,12 @@ class Juego {
     }
   }
 
-  crearTableroNivel() {
-    const titulo = document.createElement('h3');
-    titulo.textContent = 'Nivel';
-    tableroNivel.insertAdjacentHTML('afterbegin', titulo.outerHTML);
+  visibleTableroNivel() {
+    this.tableroNivel.style.visibility = 'visible';
+  }
 
-    const estado = document.createElement('p');
-    estado.id = 'estadoNivel';
-
-    tableroNivel.insertAdjacentHTML('beforeend', estado.outerHTML);
+  ocultarTableroNivel() {
+    this.tableroNivel.style.visibility = 'hidden';
   }
 
   eliminarVida() {
