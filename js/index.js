@@ -140,7 +140,7 @@ class Juego {
     }
   }
   ganoElJuego() {
-    alert('Felicitaciones ganaste el juego');
+
     swal('Felicitaciones ganaste el juego').then(() => this.inicializar());
   }
 
