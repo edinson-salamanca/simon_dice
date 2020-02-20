@@ -7,10 +7,21 @@ const verde = document.getElementById('verde');
 const btnEmpezar = document.getElementById('btnEmpezar');
 const ULTIMO_NIVEL = 10;
 
+const audios = [
+  { url: '../audio/DO.mp3' },
+  { url: '../audio/FA.mp3' },
+  { url: '../audio/LA.mp3' },
+  { url: '../audio/MI.mp3' },
+  { url: '../audio/RE.mp3' },
+  { url: '../audio/SI.mp3' },
+  { url: '../audio/SOL.mp3' }
+];
+
 class Juego {
   constructor() {
     this.elegirColor = this.elegirColor.bind(this);
     this.iluminarSecuencia = this.iluminarSecuencia.bind(this);
+    this.iluminarColor = this.iluminarColor.bind(this);
 
     this.tableroNivel = document.getElementById('tableroNivel');
     this.estadoNivel = document.getElementById('estadoNivel');
@@ -51,6 +62,10 @@ class Juego {
     this.secuencia = new Array(ULTIMO_NIVEL)
       .fill(0)
       .map(n => Math.floor(Math.random() * 4));
+
+    this.secuenciaAudios = this.secuencia.map(
+      n => new Audio(`${audios[n].url}`)
+    );
   }
 
   siguieteNivel() {
@@ -99,7 +114,15 @@ class Juego {
 
   iluminarColor(color) {
     this.colores[color].classList.add('light');
-    setTimeout(() => this.apagarColor(color), 350);
+    const audioNumero = this.transformarColorANumero(color);
+    this.secuenciaAudios[audioNumero].play().then(() => {
+      setTimeout(data => {
+        this.apagarColor(color);
+        this.secuenciaAudios[audioNumero].pause();
+        this.secuenciaAudios[audioNumero].currentTime = 0;
+      }, 500);
+    });
+    /* setTimeout(() => this.apagarColor(color), 350); */
   }
 
   apagarColor(color) {
@@ -140,7 +163,6 @@ class Juego {
     }
   }
   ganoElJuego() {
-
     swal('Felicitaciones ganaste el juego').then(() => this.inicializar());
   }
 
