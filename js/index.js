@@ -8,13 +8,13 @@ const btnEmpezar = document.getElementById('btnEmpezar');
 const ULTIMO_NIVEL = 10;
 
 const audios = [
-  { url: '../audio/DO.mp3' },
-  { url: '../audio/FA.mp3' },
-  { url: '../audio/LA.mp3' },
-  { url: '../audio/MI.mp3' },
-  { url: '../audio/RE.mp3' },
-  { url: '../audio/SI.mp3' },
-  { url: '../audio/SOL.mp3' }
+  { url: '../audio/DO.wav' },
+  { url: '../audio/FA.wav' },
+  { url: '../audio/LA.wav' },
+  { url: '../audio/MI.wav' },
+  { url: '../audio/RE.wav' },
+  { url: '../audio/SI.wav' },
+  { url: '../audio/SOL.wav' }
 ];
 
 class Juego {
@@ -22,6 +22,7 @@ class Juego {
     this.elegirColor = this.elegirColor.bind(this);
     this.iluminarSecuencia = this.iluminarSecuencia.bind(this);
     this.iluminarColor = this.iluminarColor.bind(this);
+    this.apagarColor = this.apagarColor.bind(this);
 
     this.tableroNivel = document.getElementById('tableroNivel');
     this.estadoNivel = document.getElementById('estadoNivel');
@@ -108,23 +109,25 @@ class Juego {
   iluminarSecuencia() {
     for (let i = 0; i < this.nivel; i++) {
       const color = this.transformarNumeroAColor(this.secuencia[i]);
+      setTimeout(() => this.reproducirSonido(color), 1000 * i);
       setTimeout(() => this.iluminarColor(color), 1000 * i);
     }
   }
 
   iluminarColor(color) {
     this.colores[color].classList.add('light');
-    const audioNumero = this.transformarColorANumero(color);
-    this.secuenciaAudios[audioNumero].play().then(() => {
-      setTimeout(data => {
-        this.apagarColor(color);
-        this.secuenciaAudios[audioNumero].pause();
-        this.secuenciaAudios[audioNumero].currentTime = 0;
-      }, 500);
-    });
+    setTimeout(() => this.apagarColor(color), 350);
     /* setTimeout(() => this.apagarColor(color), 350); */
   }
+  reproducirSonido(color) {
+    const audioNumero = this.transformarColorANumero(color);
+    this.secuenciaAudios[audioNumero].play();
 
+    setTimeout(() => {
+      this.secuenciaAudios[audioNumero].pause();
+      this.secuenciaAudios[audioNumero].currentTime = 0;
+    }, 450);
+  }
   apagarColor(color) {
     this.colores[color].classList.remove('light');
   }
@@ -144,12 +147,14 @@ class Juego {
   elegirColor(ev) {
     const nombreColor = ev.target.dataset.color;
     const numeroColor = this.transformarColorANumero(nombreColor);
+    this.reproducirSonido(nombreColor);
     this.iluminarColor(nombreColor);
 
     if (numeroColor === this.secuencia[this.subnivel]) {
       this.subnivel++;
       if (this.subnivel === this.nivel) {
         this.nivel++;
+
         this.eliminarEventosClick();
 
         if (this.nivel === ULTIMO_NIVEL + 1) {
@@ -171,9 +176,11 @@ class Juego {
     const vidasActuales = this.cantidadVidas();
 
     if (vidasActuales > 0) {
-      swal('Vuelva a intentarlo', 'Dar click en el botón!', 'info').then(() =>
-        setTimeout(this.iluminarSecuencia, 400)
-      );
+      swal('Vuelva a intentarlo', 'Dar click en el botón!', 'info').then(() => {
+        /*  setTimeout(this.iluminarSecuencia, 400) */
+        this.subnivel = 0;
+        this.iluminarSecuencia();
+      });
     } else {
       swal('Lo lamentamos, perdiste', 'Da click en el botón', 'error').then(
         () => {
