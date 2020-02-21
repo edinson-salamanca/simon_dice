@@ -65,7 +65,7 @@ class Juego {
       .map(n => Math.floor(Math.random() * 4));
 
     this.secuenciaAudios = this.secuencia.map(
-      n => new Audio(`${audios[n].url}`)
+      n => new Audio(`${window.location.href}${audios[n].url}`)
     );
   }
 
