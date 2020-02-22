@@ -159,7 +159,11 @@ class Juego {
         if (this.nivel === ULTIMO_NIVEL + 1) {
           this.ganoElJuego();
         } else {
-          setTimeout(this.siguieteNivel, 1500);
+          swal({
+            title: `Nivel ${this.nivel - 1} superado`,
+            text: 'Click en el botón para continuar',
+            icon: 'success'
+          }).then(() => this.siguieteNivel());
         }
       }
     } else {

@@ -92,27 +92,27 @@ body {
 }
 
 .nivel {
-  background-color: #eeedee00;
+  background-color:#E63462;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
   margin-left: 30px;
   margin-top: 0px;
-  width: 40px;
-  height: 60px;
+  width: 70px;
+  height: 74px;
   visibility: hidden;
 }
 
 .nivel h3 {
-  color: blue;
-  font-size: 24px;
-
-  font-family: sans-serif;
-  margin-left: 10px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  text-align: center;
+  color: #C7EFCF;
+    font-size: 24px;
+    font-family: sans-serif;
+    margin-left: 10px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: 10px;
+    text-align: center;
 }
 
 .nivel p {
