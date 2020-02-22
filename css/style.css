@@ -138,3 +138,7 @@ body {
   width: 33px;
   height: 33px;
 }
+
+.audios {
+  display: none;
+}

@@ -5,17 +5,18 @@ const violeta = document.getElementById('violeta');
 const naranja = document.getElementById('naranja');
 const verde = document.getElementById('verde');
 const btnEmpezar = document.getElementById('btnEmpezar');
+
+const notaDo = document.getElementById('notaDo');
+const notaFa = document.getElementById('notaFa');
+const notaLa = document.getElementById('notaLa');
+const notaMi = document.getElementById('notaMi');
+const notaRe = document.getElementById('NotaRe');
+const notaSi = document.getElementById('notaSi');
+const notaSol = document.getElementById('notaSol');
+
 const ULTIMO_NIVEL = 10;
 
-const audios = [
-  { url: '../audio/DO.wav' },
-  { url: '../audio/FA.wav' },
-  { url: '../audio/LA.wav' },
-  { url: '../audio/MI.wav' },
-  { url: '../audio/RE.wav' },
-  { url: '../audio/SI.wav' },
-  { url: '../audio/SOL.wav' }
-];
+const audios = [notaDo, notaFa, notaLa, notaMi, notaRe, notaSi, notaSol];
 
 class Juego {
   constructor() {
@@ -64,9 +65,7 @@ class Juego {
       .fill(0)
       .map(n => Math.floor(Math.random() * 4));
 
-    this.secuenciaAudios = this.secuencia.map(
-      n => new Audio(`${window.location.href}${audios[n].url}`)
-    );
+    this.secuenciaAudios = this.secuencia.map(n => audios[n]);
   }
 
   siguieteNivel() {
